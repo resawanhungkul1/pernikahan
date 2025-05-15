@@ -662,3 +662,80 @@ function optimizeImages() {
 
 // Initialize image optimization after DOM loads
 document.addEventListener('DOMContentLoaded', optimizeImages);
+
+// === LIVE COMMENTARY (FIREBASE) ===
+// Ganti config berikut dengan milik Anda sendiri dari Firebase Console
+const firebaseConfig = {
+  apiKey: "AIzaSyC2qm8dBYpYjN9e_2CM4CNn9tvN3w2qtR0",
+  authDomain: "pernikahan-6d5ad.firebaseapp.com",
+  databaseURL: "https://pernikahan-6d5ad-default-rtdb.firebaseio.com",
+  projectId: "pernikahan-6d5ad",
+  storageBucket: "pernikahan-6d5ad.firebasestorage.app",
+  messagingSenderId: "226144618456",
+  appId: "1:226144618456:web:5da2988772e00003a914ad",
+  measurementId: "G-2S8ZSQ93K4"
+};
+
+// Load Firebase SDK jika belum ada
+(function loadFirebase() {
+    if (!window.firebase) {
+        const script1 = document.createElement('script');
+        script1.src = 'https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js';
+        script1.onload = () => {
+            const script2 = document.createElement('script');
+            script2.src = 'https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js';
+            script2.onload = initFirebaseComments;
+            document.head.appendChild(script2);
+        };
+        document.head.appendChild(script1);
+    } else {
+        initFirebaseComments();
+    }
+})();
+
+function initFirebaseComments() {
+    if (!window.firebase.apps?.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+    const db = firebase.database();
+    const commentsRef = db.ref('weddingComments');
+    const commentForm = document.getElementById('commentForm');
+    const commentsList = document.getElementById('commentsList');
+
+    // Listen for new comments
+    commentsRef.limitToLast(50).on('value', snapshot => {
+        commentsList.innerHTML = '';
+        const data = snapshot.val();
+        if (data) {
+            const arr = Object.values(data).sort((a, b) => new Date(b.date) - new Date(a.date));
+            arr.forEach(comment => {
+                const commentElement = document.createElement('div');
+                commentElement.className = 'comment';
+                commentElement.innerHTML = `
+                    <div class="comment-header">${comment.name}</div>
+                    <div class="comment-text">${comment.message}</div>
+                    <div class="comment-date">${new Date(comment.date).toLocaleString()}</div>
+                `;
+                commentsList.appendChild(commentElement);
+            });
+        }
+    });
+
+    // Submit new comment
+    commentForm.onsubmit = function(e) {
+        e.preventDefault();
+        const name = this.querySelector('input[type="text"]').value.trim();
+        const message = this.querySelector('textarea').value.trim();
+        if (!name || !message) return;
+        const newComment = {
+            name,
+            message,
+            date: new Date().toISOString()
+        };
+        commentsRef.push(newComment, err => {
+            if (!err) {
+                this.reset();
+            }
+        });
+    };
+}
