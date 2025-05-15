@@ -449,20 +449,138 @@ footer {
 }
 
 @media (max-width: 768px) {
+    .cover-content {
+        padding: 2rem;
+        width: 90%;
+    }
+
+    .cover-content h1 {
+        font-size: 1.8rem;
+    }
+
+    .names-big {
+        font-size: 3rem;
+    }
+
+    .date-cover {
+        font-size: 1.2rem;
+    }
+
+    .open-button {
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+    }
+
     .hero h1 {
-        font-size: 3.5rem;
+        font-size: 2.8rem;
+    }
+
+    .hero .date {
+        font-size: 1.2rem;
     }
     
     .couple {
         flex-direction: column;
         gap: 50px;
+        padding: 40px 20px;
+    }
+
+    .couple h2 {
+        font-size: 2.5rem;
     }
     
     #timer {
         flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    #timer div {
+        min-width: 80px;
+        padding: 15px;
     }
     
+    .quote {
+        padding: 40px 20px;
+    }
+
     .quote p {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
+        padding: 0 15px;
+    }
+
+    .gallery .photo-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+        padding: 0 15px;
+    }
+
+    .location-details {
+        padding: 0 15px;
+    }
+
+    .location-details h3 {
+        font-size: 1.5rem;
+    }
+
+    .comments-form {
+        padding: 0 15px;
+    }
+
+    .comments-list {
+        padding: 0 15px;
+    }
+
+    .rsvp form {
+        padding: 0 15px;
+    }
+
+    .gift {
+        padding: 60px 15px;
+    }
+
+    .qr-code {
+        max-width: 180px;
+    }
+
+    .audio-player {
+        top: 10px;
+        right: 10px;
+    }
+
+    #playButton {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+
+    .comment {
+        padding: 15px;
+        margin: 10px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .names-big {
+        font-size: 2.5rem;
+    }
+
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+
+    #timer div {
+        min-width: 70px;
+        padding: 10px;
+    }
+
+    #timer span {
+        font-size: 2rem;
+    }
+
+    .couple h2 {
+        font-size: 2rem;
+    }
+
+    .map-container iframe {
+        height: 300px;
     }
 }
