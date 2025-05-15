@@ -179,52 +179,71 @@ const audio = document.getElementById('bgMusic');
 const playButton = document.getElementById('playButton');
 let isPlaying = false;
 
-// Opening Animation
+// Fix for viewport height on mobile
+function fixViewportHeight() {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+
+// Call on load and resize
+window.addEventListener('load', fixViewportHeight);
+window.addEventListener('resize', fixViewportHeight);
+window.addEventListener('orientationchange', () => {
+    setTimeout(fixViewportHeight, 100);
+});
+
+// Opening animation function
 function openInvitation() {
+    const wrapper = document.querySelector('.cover-wrapper');
     const leftDoor = document.querySelector('.left-door');
     const rightDoor = document.querySelector('.right-door');
     const cover = document.getElementById('cover');
     const mainContent = document.getElementById('mainContent');
-    const wrapper = document.querySelector('.cover-wrapper');
+    const audio = document.getElementById('bgMusic');
+    
+    // Force a reflow to ensure proper height calculation
+    fixViewportHeight();
     
     // Prevent scrolling during animation
     document.body.style.overflow = 'hidden';
     
-    // Ensure proper positioning and perspective
-    wrapper.style.perspective = '2000px';
-    wrapper.style.perspectiveOrigin = '50% 50%';
+    // Play music (if available)
+    if (audio) {
+        audio.currentTime = 47;
+        audio.play().catch(console.log);
+    }
     
-    // Play music from 47 seconds when opening the invitation
-    audio.currentTime = 47;
-    audio.play().then(() => {
-        isPlaying = true;
-        playButton.innerHTML = '♪ Jeda Musik';
-    }).catch((error) => {
-        console.log("Audio playback failed:", error);
-        isPlaying = false;
-        playButton.innerHTML = '♪ Putar Musik';
-    });
-
-    // Animate the doors
-    leftDoor.classList.add('open-left');
-    rightDoor.classList.add('open-right');
-
-    // Fade out the cover
-    setTimeout(() => {
-        cover.style.opacity = '0';
-    }, 500);
-    
-    // Show main content
+    // Ensure elements are in the right state
+    wrapper.style.pointerEvents = 'none';
     mainContent.style.display = 'block';
-    setTimeout(() => {
-        mainContent.classList.add('visible');
-    }, 1000);    // Remove cover and doors after animation, restore scrolling
-    setTimeout(() => {
-        cover.style.display = 'none';
-        document.querySelector('.doors').style.display = 'none';
-        document.body.style.overflow = '';
-        wrapper.style.perspective = '';
-    }, 2500);
+    
+    // Start animation sequence
+    requestAnimationFrame(() => {
+        // Fade out cover content
+        cover.style.opacity = '0';
+        
+        // Open doors
+        setTimeout(() => {
+            leftDoor.classList.add('open-left');
+            rightDoor.classList.add('open-right');
+            
+            // Start fading in main content
+            setTimeout(() => {
+                mainContent.classList.add('visible');
+                document.body.style.overflow = '';
+                
+                // Clean up after animation
+                setTimeout(() => {
+                    wrapper.style.display = 'none';
+                    // Force a reflow to prevent visual glitches
+                    document.documentElement.style.opacity = '0.99';
+                    setTimeout(() => {
+                        document.documentElement.style.opacity = '';
+                    }, 100);
+                }, 1500);
+            }, 500);
+        }, 100);
+    });
 }
 
 // Handle comments
@@ -446,12 +465,35 @@ window.addEventListener('load', setViewportHeight);
 window.addEventListener('resize', setViewportHeight);
 
 // Perbaikan untuk animasi pintu di mobile
+// Fix for iOS vh unit
+function setVH() {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+
+// Call setVH on first load and resize
+window.addEventListener('resize', setVH);
+window.addEventListener('orientationchange', () => {
+    setTimeout(setVH, 100);
+});
+setVH();
+
+// Prevent bounce scroll on iOS
+document.body.addEventListener('touchmove', function(e) {
+    if (document.querySelector('.cover-wrapper').style.display !== 'none') {
+        e.preventDefault();
+    }
+}, { passive: false });
+
 document.addEventListener('DOMContentLoaded', () => {
     const coverWrapper = document.querySelector('.cover-wrapper');
     const leftDoor = document.querySelector('.left-door');
     const rightDoor = document.querySelector('.right-door');
     const openButton = document.querySelector('.open-button');
     const mainContent = document.querySelector('.main-content');
+    
+    // Force correct height on mobile
+    coverWrapper.style.height = `${window.innerHeight}px`;
     
     // Pastikan elemen-elemen sudah dimuat dengan benar
     if (!coverWrapper || !leftDoor || !rightDoor || !openButton || !mainContent) {

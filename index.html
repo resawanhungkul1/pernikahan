@@ -1,26 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <title>Ray & Anisa Wedding Invitation</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body>    <div class="cover-wrapper">
-        <div class="doors">
-            <div class="door left-door"></div>
-            <div class="door right-door"></div>
-        </div>
+<body>    
+    <div class="page-container">
+        <div class="cover-wrapper">
+            <div class="doors">
+                <div class="door left-door"></div>
+                <div class="door right-door"></div>
+            </div>
 
-        <div class="invitation-cover" id="cover">
-            <div class="cover-content">                <h1>Undangan Pernikahan</h1>
-                <div class="names-big">Boy & Anisa</div>
-                <p class="date-cover">30 September 2025</p>
-                <button class="open-button" onclick="openInvitation()">Buka Undangan</button>
+            <div class="invitation-cover" id="cover">
+                <div class="cover-content">
+                    <h1>Undangan Pernikahan</h1>
+                    <div class="names-big">Boy & Anisa</div>
+                    <p class="date-cover">30 September 2025</p>
+                    <button class="open-button" onclick="openInvitation()">Buka Undangan</button>
+                </div>
             </div>
         </div>
-    </div>
 
     <div class="main-content" id="mainContent" style="display: none;">        <div class="audio-player">
             <audio id="bgMusic" loop preload="auto">

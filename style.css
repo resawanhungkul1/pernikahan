@@ -40,6 +40,8 @@ body {
     perspective: 2000px;
     perspective-origin: 50% 50%;
     overflow: hidden;
+    background-color: #000;
+    will-change: transform;
 }
 
 .doors {
@@ -60,7 +62,7 @@ body {
     height: 100%;
     background-image: url('assets/pembuka.jpeg');
     background-size: cover;
-    transition: transform 2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
     transform-style: preserve-3d;
     backface-visibility: hidden;
     perspective: 2000px;
@@ -1615,5 +1617,231 @@ footer {
 
     .main-content.visible {
         opacity: 1;
+    }
+}
+
+/* Perbaikan untuk animasi pintu dan tampilan mobile */
+:root {
+    --vh: 1vh;
+}
+
+html, body {
+    overscroll-behavior: none;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+.cover-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(var(--vh, 1vh) * 100);
+    z-index: 1000;
+    transform-style: preserve-3d;
+    perspective: 2000px;
+    perspective-origin: 50% 50%;
+    overflow: hidden;
+    background-color: #000;
+    will-change: transform;
+}
+
+.doors {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    transform-style: preserve-3d;
+}
+
+.door {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background-image: url('assets/pembuka.jpeg');
+    background-size: cover;
+    transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: left center;
+    backface-visibility: hidden;
+    will-change: transform;
+}
+
+.right-door {
+    right: 0;
+    transform-origin: right center;
+    background-position: right center;
+}
+
+.left-door {
+    left: 0;
+    background-position: left center;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    .door {
+        background-size: 200% 100%;
+        transform-style: preserve-3d;
+    }
+    
+    .left-door {
+        transform-origin: left;
+        background-position: left;
+    }
+    
+    .right-door {
+        transform-origin: right;
+        background-position: right;
+    }
+    
+    .door.open-left {
+        transform: perspective(2000px) rotateY(-105deg);
+    }
+    
+    .door.open-right {
+        transform: perspective(2000px) rotateY(105deg);
+    }
+    
+    .invitation-cover {
+        z-index: 1001;
+    }
+    
+    .cover-content {
+        width: 85%;
+        padding: 2rem;
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+    
+    .main-content {
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+    }
+    
+    .main-content.visible {
+        opacity: 1;
+    }
+}
+
+/* Landscape mode */
+@media (max-width: 768px) and (orientation: landscape) {
+    .cover-content {
+        padding: 1.5rem;
+        width: 70%;
+    }
+    
+    .names-big {
+        font-size: clamp(2rem, 6vw, 3rem);
+        margin: 1rem 0;
+    }
+    
+    .date-cover {
+        font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+    }
+}
+
+/* Critical fixes for mobile layout */
+.page-container {
+    position: relative;
+    min-height: 100vh;
+    min-height: calc(var(--vh, 1vh) * 100);
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.cover-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+    background-color: #000;
+    z-index: 1000;
+    transform-style: preserve-3d;
+    perspective: 2000px;
+    overflow: hidden;
+    transition: opacity 0.5s ease;
+}
+
+.invitation-cover {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+    transition: opacity 0.5s ease;
+}
+
+.cover-content {
+    position: relative;
+    z-index: 1002;
+    background: rgba(0, 0, 0, 0.85);
+    padding: clamp(1.5rem, 4vw, 4rem);
+    border-radius: 20px;
+    text-align: center;
+    color: #fff;
+    width: min(90%, 500px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    transition: opacity 0.5s ease;
+}
+
+.main-content {
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.main-content.visible {
+    opacity: 1;
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    .door {
+        transform-style: preserve-3d;
+        will-change: transform;
+    }
+
+    .door.open-left {
+        transform: perspective(2000px) rotateY(-105deg) translateZ(0);
+    }
+
+    .door.open-right {
+        transform: perspective(2000px) rotateY(105deg) translateZ(0);
+    }
+
+    .cover-content {
+        margin: 20px;
+        padding: clamp(1.2rem, 3vw, 2.5rem);
+    }
+
+    .names-big {
+        font-size: clamp(2rem, 8vw, 3.5rem);
+        margin: 1rem 0;
+    }
+
+    .date-cover {
+        font-size: clamp(1rem, 4vw, 1.5rem);
+    }
+
+    .open-button {
+        font-size: clamp(0.9rem, 3vw, 1.2rem);
+        padding: clamp(0.8rem, 2vw, 1.2rem) clamp(1.5rem, 4vw, 2.5rem);
     }
 }
