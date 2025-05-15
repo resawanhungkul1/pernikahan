@@ -600,3 +600,65 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+// Image optimization and loading
+function optimizeImages() {
+    const photoItems = document.querySelectorAll('.photo-item img');
+    
+    // Create intersection observer for lazy loading
+    const imageObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                if (img.dataset.src) {
+                    // Start loading the image
+                    const tempImage = new Image();
+                    tempImage.onload = () => {
+                        img.src = tempImage.src;
+                        img.style.opacity = '0';
+                        requestAnimationFrame(() => {
+                            img.style.transition = 'opacity 0.5s ease';
+                            img.style.opacity = '1';
+                        });
+                    };
+                    tempImage.src = img.dataset.src;
+                    img.removeAttribute('data-src');
+                }
+                imageObserver.unobserve(img);
+            }
+        });
+    }, {
+        rootMargin: '50px 0px',
+        threshold: 0.1
+    });
+
+    // Observe each image
+    photoItems.forEach(img => {
+        if (img.complete) {
+            // Image is already loaded
+            img.style.opacity = '1';
+        } else {
+            // Start observing for lazy loading
+            imageObserver.observe(img);
+            // Add loading state
+            img.style.opacity = '0';
+            img.addEventListener('load', () => {
+                img.style.transition = 'opacity 0.5s ease';
+                img.style.opacity = '1';
+            });
+        }
+    });
+
+    // Handle orientation change
+    window.addEventListener('orientationchange', () => {
+        setTimeout(() => {
+            document.querySelectorAll('.photo-item').forEach(item => {
+                // Force browser to recalculate layout
+                item.style.transform = 'translateZ(0)';
+            });
+        }, 100);
+    });
+}
+
+// Initialize image optimization after DOM loads
+document.addEventListener('DOMContentLoaded', optimizeImages);

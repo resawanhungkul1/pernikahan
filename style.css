@@ -467,113 +467,85 @@ body {
     font-size: clamp(1.8rem, 5vw, 2.5rem);
 }
 
+/* Image resolution and aspect ratio fixes */
 .photo-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: clamp(10px, 2vw, 30px);
-    padding: clamp(10px, 2vw, 30px);
+    gap: 20px;
+    padding: 20px;
     max-width: 1400px;
     margin: 0 auto;
 }
 
 .photo-item {
     position: relative;
-    cursor: pointer;
+    width: 100%;
+    padding-top: 75%; /* 4:3 aspect ratio */
     overflow: hidden;
-    aspect-ratio: 3/4;
-    border-radius: clamp(8px, 2vw, 15px);
+    border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    transform: scale(0.98);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    background-color: var(--accent-color);
-}
-
-.photo-item:hover {
-    transform: scale(1);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    background-color: #f0f0f0;
 }
 
 .photo-item img {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
+    object-position: center;
+    transition: transform 0.3s ease;
 }
 
-.photo-item:hover img {
-    transform: scale(1.05);
-}
-
-/* Mobile optimizations for gallery */
-@media screen and (max-width: 768px) {
+/* Mobile optimizations */
+@media (max-width: 768px) {
     .gallery {
-        padding: clamp(20px, 4vw, 40px) 0;
+        padding: 15px 0;
     }
 
     .photo-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
+        gap: 10px;
         padding: 10px;
     }
 
     .photo-item {
-        aspect-ratio: 1;
-        border-radius: 8px;
-        transform: none;
-        opacity: 0;
-        animation: fadeInScale 0.5s ease forwards;
+        padding-top: 100%; /* 1:1 aspect ratio for mobile */
     }
 
     .photo-item img {
-        transform: scale(1.05);
-        will-change: transform;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transform: scale(1.0);
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
     }
-
-    .photo-item:active {
-        transform: scale(0.98);
-    }
-
-    /* Progressive loading animation */
-    @keyframes fadeInScale {
-        from {
-            opacity: 0;
-            transform: scale(0.95);
-        }
-        to {
-            opacity: 1;
-            transform: scale(1);
-        }
-    }
-
-    /* Stagger the animation for each item */
-    .photo-item:nth-child(1) { animation-delay: 0.1s; }
-    .photo-item:nth-child(2) { animation-delay: 0.2s; }
-    .photo-item:nth-child(3) { animation-delay: 0.3s; }
-    .photo-item:nth-child(4) { animation-delay: 0.4s; }
-    .photo-item:nth-child(5) { animation-delay: 0.5s; }
-    .photo-item:nth-child(6) { animation-delay: 0.6s; }
 }
 
-/* Small mobile screens */
-@media screen and (max-width: 480px) {
+/* Small screens */
+@media (max-width: 480px) {
     .photo-grid {
-        grid-template-columns: repeat(2, 1fr);
         gap: 8px;
         padding: 8px;
     }
 
     .photo-item {
-        aspect-ratio: 1;
-        border-radius: 6px;
+        border-radius: 8px;
     }
 }
 
 /* Landscape mode */
-@media screen and (max-width: 768px) and (orientation: landscape) {
+@media (max-width: 768px) and (orientation: landscape) {
     .photo-grid {
         grid-template-columns: repeat(3, 1fr);
-        padding: 12px;
         gap: 12px;
+        padding: 12px;
+    }
+
+    .photo-item {
+        padding-top: 75%; /* Return to 4:3 aspect ratio in landscape */
     }
 }
 
