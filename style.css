@@ -480,7 +480,6 @@ body {
 .photo-item {
     position: relative;
     width: 100%;
-    padding-top: 100%; /* Square aspect ratio for consistency */
     overflow: hidden;
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -492,15 +491,37 @@ body {
     transform: scale(1.02);
 }
 
+.photo-item::before {
+    content: "";
+    display: block;
+    padding-top: 75%; /* 4:3 aspect ratio */
+}
+
 .photo-item img {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 50%;
+    left: 50%;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: center;
-    transition: transform 0.3s ease;
+    transform: translate(-50%, -50%);
+    object-fit: contain; /* Changed from cover to contain */
+    background-color: rgba(0, 0, 0, 0.8); /* Dark background for letter-boxed images */
+}
+
+/* Mobile optimizations */
+@media screen and (max-width: 768px) {
+    .photo-grid {
+        grid-template-columns: 1fr;
+        padding: 10px;
+    }
+    
+    .photo-item {
+        margin-bottom: 15px;
+    }
+
+    .photo-item::before {
+        padding-top: 66.67%; /* Slightly shorter aspect ratio on mobile */
+    }
 }
 
 /* Mobile optimizations */
