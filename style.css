@@ -531,6 +531,33 @@ body {
 /* Mobile optimizations */
 @media (max-width: 768px) {
     .gallery {
+        padding: 20px 0;
+    }
+
+    .photo-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 0;
+        max-width: 100%;
+    }
+
+    .photo-item {
+        padding-top: 56.25%; /* 16:9 aspect ratio */
+        border-radius: 0;
+        margin: 0;
+    }
+
+    .photo-item img {
+        width: 100vw;
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: none;
+    }
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    .gallery {
         padding: 15px 0;
     }
 
