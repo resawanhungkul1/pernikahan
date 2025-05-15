@@ -535,6 +535,48 @@ body {
     }
 
     .photo-grid {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+        padding: 10px;
+        gap: 15px;
+        margin: 0;
+    }
+
+    /* Hide scrollbar but keep functionality */
+    .photo-grid::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .photo-grid {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .photo-item {
+        flex: 0 0 85vw;
+        width: 85vw;
+        min-width: 85vw;
+        padding-top: 60vw;
+        margin: 0;
+        scroll-snap-align: center;
+        scroll-snap-stop: always;
+    }
+
+    .photo-item img {
+        border-radius: 12px;
+    }
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    .gallery {
+        padding: 20px 0;
+    }
+
+    .photo-grid {
         grid-template-columns: 1fr;
         gap: 15px;
         padding: 0;
