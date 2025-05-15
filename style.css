@@ -480,6 +480,7 @@ body {
 .photo-item {
     position: relative;
     width: 100%;
+    padding-top: 100%; /* Square aspect ratio for consistency */
     overflow: hidden;
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
@@ -491,37 +492,15 @@ body {
     transform: scale(1.02);
 }
 
-.photo-item::before {
-    content: "";
-    display: block;
-    padding-top: 75%; /* 4:3 aspect ratio */
-}
-
 .photo-item img {
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    transform: translate(-50%, -50%);
-    object-fit: contain; /* Changed from cover to contain */
-    background-color: rgba(0, 0, 0, 0.8); /* Dark background for letter-boxed images */
-}
-
-/* Mobile optimizations */
-@media screen and (max-width: 768px) {
-    .photo-grid {
-        grid-template-columns: 1fr;
-        padding: 10px;
-    }
-    
-    .photo-item {
-        margin-bottom: 15px;
-    }
-
-    .photo-item::before {
-        padding-top: 66.67%; /* Slightly shorter aspect ratio on mobile */
-    }
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.3s ease;
 }
 
 /* Mobile optimizations */
@@ -1947,3 +1926,52 @@ html, body {
         padding: clamp(0.8rem, 2vw, 1.2rem) clamp(1.5rem, 4vw, 2.5rem);
     }
 }
+
+/* ...existing code... */
+
+@media screen and (max-width: 768px) {
+    .photo-grid {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 12px;
+        padding: 10px 0;
+    }
+    .photo-item {
+        flex: 0 0 90vw;
+        width: 90vw;
+        min-width: 90vw;
+        max-width: 90vw;
+        height: 60vw;
+        max-height: 70vw;
+        padding-top: 0;
+        border-radius: 12px;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+    .photo-item img {
+        position: static;
+        width: 100%;
+        height: 100%;
+        object-fit: contain !important;
+        object-position: center;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: none;
+        display: block;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .photo-item {
+        height: 55vw;
+        max-height: 65vw;
+        min-width: 95vw;
+        width: 95vw;
+    }
+}
+
+/* ...existing code... */
