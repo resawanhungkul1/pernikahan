@@ -1988,14 +1988,14 @@ html, body {
         padding: 10px 0;
     }
     .photo-item {
-        flex: 0 0 90vw;
-        width: 90vw;
-        min-width: 90vw;
-        max-width: 90vw;
-        aspect-ratio: 16/9 !important;
+        flex: 0 0 60vw;
+        width: 60vw;
+        min-width: 60vw;
+        max-width: 60vw;
+        aspect-ratio: 9/16 !important;
         height: auto;
-        min-height: 160px;
-        max-height: 60vw;
+        min-height: 240px;
+        max-height: 90vw;
         padding-top: 0 !important;
         border-radius: 12px;
         background: #fff;
@@ -2009,7 +2009,7 @@ html, body {
     .photo-item img {
         width: 100%;
         height: 100%;
-        aspect-ratio: 16/9 !important;
+        aspect-ratio: 9/16 !important;
         object-fit: cover !important;
         object-position: center;
         border-radius: 12px;
@@ -2020,15 +2020,15 @@ html, body {
 
 @media (max-width: 480px) {
     .photo-item {
-        min-width: 98vw;
-        width: 98vw;
-        max-width: 98vw;
-        aspect-ratio: 16/9 !important;
-        min-height: 120px;
-        max-height: 70vw;
+        min-width: 90vw;
+        width: 90vw;
+        max-width: 90vw;
+        aspect-ratio: 9/16 !important;
+        min-height: 180px;
+        max-height: 95vw;
     }
     .photo-item img {
-        aspect-ratio: 16/9 !important;
+        aspect-ratio: 9/16 !important;
         max-height: 100%;
     }
 }
