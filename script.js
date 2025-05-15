@@ -547,3 +547,56 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// Optimasi loading gambar untuk galeri
+document.addEventListener('DOMContentLoaded', () => {
+    const images = document.querySelectorAll('.photo-item img');
+    
+    // Intersection Observer untuk lazy loading
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.style.opacity = '0';
+                img.src = img.getAttribute('data-src') || img.src;
+                
+                img.onload = () => {
+                    img.style.transition = 'opacity 0.5s ease';
+                    img.style.opacity = '1';
+                    observer.unobserve(img);
+                };
+            }
+        });
+    }, {
+        rootMargin: '50px 0px',
+        threshold: 0.1
+    });
+
+    // Observe each image
+    images.forEach(img => imageObserver.observe(img));
+
+    // Mengatur ulang ukuran gambar saat orientasi berubah
+    window.addEventListener('orientationchange', () => {
+        setTimeout(() => {
+            const grid = document.querySelector('.photo-grid');
+            if (grid) {
+                grid.style.opacity = '0';
+                setTimeout(() => {
+                    grid.style.opacity = '1';
+                }, 100);
+            }
+        }, 100);
+    });
+
+    // Tambahkan touch feedback
+    const photoItems = document.querySelectorAll('.photo-item');
+    photoItems.forEach(item => {
+        item.addEventListener('touchstart', () => {
+            item.style.transform = 'scale(0.98)';
+        });
+
+        item.addEventListener('touchend', () => {
+            item.style.transform = '';
+        });
+    });
+});
