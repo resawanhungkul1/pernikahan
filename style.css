@@ -19,6 +19,9 @@
     width: 100%;
     height: 100vh;
     z-index: 1000;
+    transform-style: preserve-3d;
+    perspective: 2000px;
+    perspective-origin: 50% 50%;
 }
 
 .doors {
@@ -28,6 +31,7 @@
     width: 100%;
     height: 100%;
     pointer-events: none;
+    transform-style: preserve-3d;
 }
 
 .door {
@@ -37,27 +41,83 @@
     height: 100%;
     background-image: url('assets/pembuka.jpeg');
     background-size: cover;
-    transition: transform 1.5s cubic-bezier(0.8, 0.1, 0.2, 1);
+    transition: transform 2s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    perspective: 2000px;
+    overflow: hidden;
+    will-change: transform;
+}
+
+.door::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 0 0, rgba(218, 165, 32, 0.2) 0, rgba(218, 165, 32, 0.2) 2px, transparent 2px),
+        radial-gradient(circle at 8px 8px, rgba(218, 165, 32, 0.2) 0, rgba(218, 165, 32, 0.2) 2px, transparent 2px),
+        repeating-linear-gradient(45deg, 
+            rgba(218, 165, 32, 0.1) 0,
+            rgba(218, 165, 32, 0.1) 2px,
+            transparent 2px,
+            transparent 8px
+        ),
+        repeating-linear-gradient(-45deg,
+            rgba(218, 165, 32, 0.1) 0,
+            rgba(218, 165, 32, 0.1) 2px,
+            transparent 2px,
+            transparent 8px
+        );
+    background-size: 16px 16px, 16px 16px, 100% 100%, 100% 100%;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.door::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        transparent 4px,
+        rgba(218, 165, 32, 0.1) 4px,
+        rgba(218, 165, 32, 0.1) 8px
+    );
+    pointer-events: none;
 }
 
 .left-door {
     left: 0;
     transform-origin: left;
-    background-position: left;
+    background-position: left center;
+    box-shadow: inset -5px 0 15px rgba(0, 0, 0, 0.4);
 }
 
 .right-door {
     right: 0;
     transform-origin: right;
-    background-position: right;
+    background-position: right center;
+    box-shadow: inset 5px 0 15px rgba(0, 0, 0, 0.4);
+}
+
+.door:hover::before {
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
 }
 
 .door.open-left {
-    transform: perspective(1000px) rotateY(-105deg);
+    transform: perspective(2000px) rotateY(-110deg);
 }
 
 .door.open-right {
-    transform: perspective(1000px) rotateY(105deg);
+    transform: perspective(2000px) rotateY(110deg);
 }
 
 .invitation-cover {
@@ -76,16 +136,47 @@
 .cover-content {
     text-align: center;
     color: var(--secondary-color);
-    padding: 3rem;
-    background-color: rgba(0, 0, 0, 0.7);
+    padding: 4rem;
+    background-color: rgba(0, 0, 0, 0.85);
     border-radius: 20px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(218, 165, 32, 0.3);
     backdrop-filter: blur(10px);
     transform: scale(0.9);
     opacity: 0;
     animation: fadeIn 1s ease-out forwards;
     pointer-events: all;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+    box-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(218, 165, 32, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.cover-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, 
+        transparent 0%,
+        rgba(255, 255, 255, 0.05) 45%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0.05) 55%,
+        transparent 100%
+    );
+    transform: translateY(-100%) translateX(-100%);
+    animation: shine 5s infinite;
+}
+
+@keyframes shine {
+    0% {
+        transform: translateY(-100%) translateX(-100%);
+    }
+    20%, 100% {
+        transform: translateY(100%) translateX(100%);
+    }
 }
 
 @keyframes fadeIn {
@@ -212,6 +303,23 @@
 .comment-text {
     color: var(--accent-color);
     line-height: 1.6;
+    margin-bottom: 8px;
+}
+
+.comment-date {
+    font-size: 0.8rem;
+    color: var(--accent-color);
+    opacity: 0.7;
+}
+
+.success-message {
+    background-color: rgba(0, 128, 0, 0.1);
+    color: green;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 15px;
+    text-align: center;
+    animation: fadeIn 0.3s ease-out;
 }
 
 body {
@@ -337,21 +445,153 @@ body {
 
 .photo-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
     max-width: 1200px;
     margin: 0 auto;
+    padding: 20px;
+}
+
+.photo-grid .photo-item {
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    aspect-ratio: 3/4;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
 .photo-grid img {
     width: 100%;
-    height: 300px;
+    height: 100%;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    transition: transform 0.5s ease;
 }
 
-.photo-grid img:hover {
-    transform: scale(1.05);
+.photo-grid .photo-item:hover img {
+    transform: scale(1.1);
+}
+
+.lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 2000;
+    box-sizing: border-box;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.lightbox.active {
+    display: flex;
+    opacity: 1;
+    justify-content: center;
+    align-items: center;
+}
+
+.lightbox-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.lightbox img {
+    max-width: 90%;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: 5px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+    transform-origin: center;
+    transition: transform 0.3s ease;
+    cursor: zoom-in;
+}
+
+.lightbox .close-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.lightbox .close-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.lightbox .zoom-controls {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.lightbox .zoom-btn {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.lightbox .zoom-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.zoom-instructions {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.lightbox.active .zoom-instructions {
+    opacity: 1;
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
 }
 
 .rsvp {
@@ -448,68 +688,107 @@ footer {
     margin-top: 20px;
 }
 
+@media (max-width: 1024px) {
+    .photo-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .couple {
+        gap: 60px;
+    }
+}
+
+@media (min-width: 1025px) {
+    .door {
+        background-size: 200% 100%;
+    }
+    .left-door {
+        background-position: left center;
+    }
+    .right-door {
+        background-position: right center;
+    }
+}
+
+@media (max-width: 1024px) {
+    .door {
+        background-size: 200% 100%;
+    }
+    .left-door {
+        background-position: 25% center;
+    }
+    .right-door {
+        background-position: 75% center;
+    }
+}
+
 @media (max-width: 768px) {
+    .door {
+        background-size: 200% 100%;
+    }
     .cover-content {
         padding: 2rem;
-        width: 90%;
+        width: min(90%, 500px);
     }
 
     .cover-content h1 {
-        font-size: 1.8rem;
+        font-size: clamp(1.5rem, 5vw, 2rem);
     }
 
     .names-big {
-        font-size: 3rem;
+        font-size: clamp(2.5rem, 8vw, 4rem);
     }
 
     .date-cover {
-        font-size: 1.2rem;
+        font-size: clamp(1rem, 3vw, 1.5rem);
     }
 
     .open-button {
-        padding: 1rem 2rem;
-        font-size: 1.1rem;
+        padding: clamp(0.8rem, 2vw, 1.2rem) clamp(1.5rem, 4vw, 2.5rem);
+        font-size: clamp(0.9rem, 2.5vw, 1.3rem);
     }
 
     .hero h1 {
-        font-size: 2.8rem;
+        font-size: clamp(2rem, 8vw, 3.5rem);
     }
 
     .hero .date {
-        font-size: 1.2rem;
+        font-size: clamp(1rem, 3vw, 1.5rem);
     }
     
     .couple {
         flex-direction: column;
-        gap: 50px;
-        padding: 40px 20px;
+        gap: 40px;
     }
 
     .couple h2 {
-        font-size: 2.5rem;
+        font-size: clamp(2rem, 6vw, 3rem);
     }
     
     #timer {
         flex-wrap: wrap;
-        gap: 15px;
+        gap: clamp(10px, 2vw, 20px);
+        justify-content: center;
     }
 
     #timer div {
-        min-width: 80px;
-        padding: 15px;
+        flex: 1 1 calc(50% - 20px);
+        min-width: 120px;
+        max-width: 160px;
     }
     
     .quote {
-        padding: 40px 20px;
+        padding: clamp(40px, 8vw, 80px) 20px;
     }
 
     .quote p {
-        font-size: 1.1rem;
+        font-size: clamp(1rem, 3vw, 1.5rem);
         padding: 0 15px;
+        max-width: 90%;
     }
 
-    .gallery .photo-grid {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    .photo-grid {
+        grid-template-columns: repeat(2, 1fr);
         gap: 15px;
         padding: 0 15px;
     }
@@ -519,27 +798,7 @@ footer {
     }
 
     .location-details h3 {
-        font-size: 1.5rem;
-    }
-
-    .comments-form {
-        padding: 0 15px;
-    }
-
-    .comments-list {
-        padding: 0 15px;
-    }
-
-    .rsvp form {
-        padding: 0 15px;
-    }
-
-    .gift {
-        padding: 60px 15px;
-    }
-
-    .qr-code {
-        max-width: 180px;
+        font-size: clamp(1.3rem, 4vw, 1.8rem);
     }
 
     .audio-player {
@@ -548,39 +807,56 @@ footer {
     }
 
     #playButton {
-        padding: 8px 15px;
+        padding: 8px 16px;
         font-size: 0.9rem;
-    }
-
-    .comment {
-        padding: 15px;
-        margin: 10px 0;
+        background: rgba(0, 0, 0, 0.8);
     }
 }
 
 @media (max-width: 480px) {
-    .names-big {
-        font-size: 2.5rem;
+    .left-door, .right-door {
+        background-size: 200% 100%;
+    }
+    
+    .left-door {
+        background-position: 25% center;
+    }
+    
+    .right-door {
+        background-position: 75% center;
     }
 
-    .hero h1 {
-        font-size: 2.2rem;
+    .photo-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .photo-grid img {
+        height: clamp(200px, 60vw, 300px);
     }
 
     #timer div {
-        min-width: 70px;
-        padding: 10px;
+        min-width: calc(50% - 15px);
+        padding: clamp(10px, 3vw, 15px);
     }
 
     #timer span {
-        font-size: 2rem;
+        font-size: clamp(1.5rem, 5vw, 2rem);
     }
 
-    .couple h2 {
-        font-size: 2rem;
+    .rsvp form,
+    .comments-form form {
+        padding: 15px;
     }
 
     .map-container iframe {
-        height: 300px;
+        height: clamp(250px, 60vw, 300px);
+    }
+
+    .qr-code {
+        max-width: min(180px, 70%);
+    }
+
+    input, select, textarea, button {
+        font-size: 16px !important;
     }
 }
