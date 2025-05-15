@@ -1900,7 +1900,7 @@ html, body {
     }
 
     .door.open-left {
-        transform: perspective(2000px) rotateY(-105deg) translateZ(0);
+        transform: perspective(200px) rotateY(-105deg) translateZ(0);
     }
 
     .door.open-right {
