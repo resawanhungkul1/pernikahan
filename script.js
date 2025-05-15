@@ -313,6 +313,118 @@ document.getElementById('rsvpForm').addEventListener('submit', function(e) {
 });
 
 // Fix 100vh issue on mobile browsers
+function setVHProperty() {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+
+window.addEventListener('resize', setVHProperty);
+window.addEventListener('orientationchange', setVHProperty);
+setVHProperty();
+
+// Touch-friendly lightbox controls
+let touchStartX = 0;
+let touchStartY = 0;
+let initialTransform = { x: 0, y: 0, scale: 1 };
+
+function handleTouchStart(e) {
+    if (e.touches.length === 1) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        isDragging = true;
+    }
+}
+
+function handleTouchMove(e) {
+    if (!isDragging) return;
+    
+    const touch = e.touches[0];
+    const deltaX = touch.clientX - touchStartX;
+    const deltaY = touch.clientY - touchStartY;
+    
+    const img = lightbox.querySelector('img');
+    img.style.transform = `translate(${initialTransform.x + deltaX}px, ${initialTransform.y + deltaY}px) scale(${initialTransform.scale})`;
+}
+
+function handleTouchEnd() {
+    isDragging = false;
+    const img = lightbox.querySelector('img');
+    const transform = img.style.transform;
+    initialTransform = {
+        x: parseFloat(transform.match(/translate\((.*?)px/)?.[1] || 0),
+        y: parseFloat(transform.match(/,(.*?)px/)?.[1] || 0),
+        scale: parseFloat(transform.match(/scale\((.*?)\)/)?.[1] || 1)
+    };
+}
+
+// Enhance the lightbox initialization
+function initLightbox() {
+    const lightbox = document.querySelector('.lightbox');
+    const lightboxImg = lightbox.querySelector('img');
+    
+    lightboxImg.addEventListener('touchstart', handleTouchStart);
+    lightboxImg.addEventListener('touchmove', handleTouchMove);
+    lightboxImg.addEventListener('touchend', handleTouchEnd);
+    
+    // Double tap to zoom
+    let lastTap = 0;
+    lightboxImg.addEventListener('touchend', (e) => {
+        const currentTime = new Date().getTime();
+        const tapLength = currentTime - lastTap;
+        if (tapLength < 500 && tapLength > 0) {
+            const currentScale = initialTransform.scale;
+            initialTransform.scale = currentScale === 1 ? 2 : 1;
+            initialTransform.x = 0;
+            initialTransform.y = 0;
+            lightboxImg.style.transform = `translate(0px, 0px) scale(${initialTransform.scale})`;
+            e.preventDefault();
+        }
+        lastTap = currentTime;
+    });
+}
+
+// Initialize mobile optimizations when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    initLightbox();
+    
+    // Add smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+});
+
+// Optimize background music for mobile
+const audioPlayer = document.querySelector('audio');
+if (audioPlayer) {
+    // Only preload on desktop
+    if (window.innerWidth > 768) {
+        audioPlayer.preload = 'auto';
+    } else {
+        audioPlayer.preload = 'none';
+    }
+    
+    // Handle audio context on mobile
+    document.addEventListener('touchstart', () => {
+        if (audioPlayer.paused) {
+            audioPlayer.play().catch(() => {
+                // Playback was prevented, show play button
+                playButton.style.display = 'block';
+            });
+        }
+    }, { once: true });
+}
+
+// Fix 100vh issue on mobile browsers
 function setVHVariable() {
     let vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
