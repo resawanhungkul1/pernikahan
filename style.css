@@ -8,6 +8,7 @@
     --font-size-h1: clamp(2.5rem, 8vw, 5rem);
     --font-size-h2: clamp(2rem, 6vw, 3rem);
     --font-size-normal: clamp(1rem, 3vw, 1.2rem);
+    --vh: 1vh;
 }
 
 * {
@@ -946,5 +947,226 @@ footer {
     .open-button:active,
     button:active {
         transform: scale(0.95);
+    }
+}
+
+/* Mobile optimizations */
+@media screen and (max-width: 768px) {
+    .cover-wrapper, .hero {
+        height: calc(var(--vh) * 100);
+        min-height: -webkit-fill-available;
+    }
+
+    .cover-content {
+        width: 90%;
+        max-width: 400px;
+        padding: 2rem;
+        margin: 1rem;
+    }
+
+    .names-big {
+        font-size: clamp(2rem, 7vw, 3rem);
+        margin: 1rem 0;
+    }
+
+    .date-cover {
+        font-size: clamp(0.9rem, 4vw, 1.2rem);
+    }
+
+    .open-button {
+        padding: 0.8rem 1.5rem;
+        font-size: clamp(0.8rem, 3vw, 1rem);
+    }
+
+    .hero h1 {
+        font-size: clamp(2rem, 8vw, 3rem);
+        margin-bottom: 10px;
+    }
+
+    .hero .date {
+        font-size: clamp(0.9rem, 4vw, 1.2rem);
+    }
+
+    #timer {
+        padding: 0 10px;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    #timer div {
+        padding: 10px 5px;
+        min-width: unset;
+        width: calc(50% - 15px);
+    }
+
+    #timer span {
+        font-size: clamp(1.2rem, 6vw, 1.8rem);
+    }
+
+    #timer p {
+        font-size: clamp(0.8rem, 3vw, 1rem);
+    }
+
+    .couple {
+        padding: 40px 15px;
+    }
+
+    .couple h2 {
+        font-size: clamp(1.8rem, 6vw, 2.5rem);
+    }
+
+    .quote {
+        padding: 40px 15px;
+    }
+
+    .quote p {
+        font-size: clamp(0.9rem, 4vw, 1.2rem);
+        line-height: 1.6;
+        padding: 0 10px;
+    }
+
+    .gallery {
+        padding: 40px 10px;
+    }
+
+    .photo-grid {
+        gap: 10px;
+        padding: 0;
+    }
+
+    .photo-item {
+        aspect-ratio: 3/4;
+        margin-bottom: 0;
+    }
+
+    .photo-grid img {
+        border-radius: 8px;
+    }
+
+    .rsvp, .comments {
+        padding: 40px 15px;
+    }
+
+    .rsvp form, 
+    .comments-form form {
+        width: 100%;
+    }    input, select, textarea {
+        padding: 12px;
+        margin: 5px 0;
+        width: 100%;
+        font-size: 16px !important;
+        -webkit-appearance: none;
+        appearance: none;
+        border-radius: 8px;
+        background-color: #ffffff;
+        border: 1px solid var(--accent-color);
+    }
+
+    .comments-list {
+        padding: 0 10px;
+    }
+
+    .comment {
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+
+    .map-container {
+        padding: 0 10px;
+    }
+
+    .map-container iframe {
+        height: 300px;
+        border-radius: 8px;
+    }
+
+    .location-details {
+        padding: 20px 15px;
+    }
+
+    .location-details h3 {
+        font-size: clamp(1.3rem, 5vw, 1.8rem);
+    }
+
+    .gift {
+        padding: 40px 15px;
+    }
+
+    .qr-code {
+        width: 80%;
+        max-width: 200px;
+    }
+
+    /* Fix for bottom nav bars on mobile */
+    .lightbox {
+        height: calc(var(--vh) * 100);
+    }
+
+    .lightbox-container {
+        padding: 50px 10px;
+    }
+
+    /* Prevent rubber-band scrolling on iOS */
+    html {
+        position: fixed;
+        height: 100%;
+        overflow: hidden;
+    }
+    
+    body {
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Better touch targets */
+    button, 
+    .open-button,
+    .directions-button {
+        min-height: 44px;
+        padding: 12px 20px;
+    }
+
+    /* Optimize lightbox controls for mobile */
+    .lightbox .close-btn,
+    .lightbox .zoom-btn {
+        width: 44px;
+        height: 44px;
+    }
+
+    .lightbox .zoom-controls {
+        bottom: 20px;
+        right: 20px;
+        gap: 15px;
+    }
+}
+
+/* Fix Chrome mobile 100vh issue */
+@media screen and (max-width: 768px) and (orientation: portrait) {
+    .cover-wrapper,
+    .hero {
+        height: calc(var(--vh) * 100);
+    }
+}
+
+/* Landscape mode optimizations */
+@media screen and (max-width: 768px) and (orientation: landscape) {
+    .cover-content {
+        padding: 1.5rem;
+    }
+
+    .names-big {
+        margin: 0.5rem 0;
+    }
+
+    #timer {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+    }
+
+    .photo-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }

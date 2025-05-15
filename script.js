@@ -311,3 +311,14 @@ document.getElementById('rsvpForm').addEventListener('submit', function(e) {
 
     this.reset();
 });
+
+// Fix 100vh issue on mobile browsers
+function setVHVariable() {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+
+// Set the variable initially and on resize/orientation change
+window.addEventListener('DOMContentLoaded', setVHVariable);
+window.addEventListener('resize', setVHVariable);
+window.addEventListener('orientationchange', setVHVariable);
