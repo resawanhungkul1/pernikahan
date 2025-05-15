@@ -434,3 +434,74 @@ function setVHVariable() {
 window.addEventListener('DOMContentLoaded', setVHVariable);
 window.addEventListener('resize', setVHVariable);
 window.addEventListener('orientationchange', setVHVariable);
+
+// Fungsi untuk mengatur tinggi viewport yang benar di mobile
+function setViewportHeight() {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+
+// Update viewport height saat load dan resize
+window.addEventListener('load', setViewportHeight);
+window.addEventListener('resize', setViewportHeight);
+
+// Perbaikan untuk animasi pintu di mobile
+document.addEventListener('DOMContentLoaded', () => {
+    const coverWrapper = document.querySelector('.cover-wrapper');
+    const leftDoor = document.querySelector('.left-door');
+    const rightDoor = document.querySelector('.right-door');
+    const openButton = document.querySelector('.open-button');
+    const mainContent = document.querySelector('.main-content');
+    
+    // Pastikan elemen-elemen sudah dimuat dengan benar
+    if (!coverWrapper || !leftDoor || !rightDoor || !openButton || !mainContent) {
+        console.error('Some elements are missing');
+        return;
+    }
+
+    // Set initial states
+    mainContent.style.display = 'none';
+    document.body.style.overflow = 'hidden';
+
+    openButton.addEventListener('click', () => {
+        // Tambahkan class untuk animasi
+        leftDoor.classList.add('open-left');
+        rightDoor.classList.add('open-right');
+        
+        // Sembunyikan tombol buka
+        openButton.style.opacity = '0';
+        
+        // Tunggu animasi pintu selesai
+        setTimeout(() => {
+            // Tampilkan konten utama
+            mainContent.style.display = 'block';
+            
+            // Fade in konten utama
+            setTimeout(() => {
+                mainContent.classList.add('visible');
+                document.body.style.overflow = '';
+            }, 100);
+            
+            // Hapus cover setelah animasi selesai
+            setTimeout(() => {
+                coverWrapper.style.display = 'none';
+            }, 1000);
+        }, 2000);
+    });
+
+    // Handle audio
+    const audioPlayer = document.querySelector('audio');
+    const playButton = document.getElementById('playButton');
+    
+    if (audioPlayer && playButton) {
+        playButton.addEventListener('click', () => {
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+                playButton.textContent = '🎵 Pause Music';
+            } else {
+                audioPlayer.pause();
+                playButton.textContent = '🎵 Play Music';
+            }
+        });
+    }
+});

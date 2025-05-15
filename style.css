@@ -28,16 +28,18 @@ body {
     font-size: var(--font-size-normal);
 }
 
+/* Perbaikan untuk animasi pintu */
 .cover-wrapper {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     z-index: 1000;
     transform-style: preserve-3d;
     perspective: 2000px;
     perspective-origin: 50% 50%;
+    overflow: hidden;
 }
 
 .doors {
@@ -48,6 +50,7 @@ body {
     height: 100%;
     pointer-events: none;
     transform-style: preserve-3d;
+    will-change: transform;
 }
 
 .door {
@@ -63,6 +66,7 @@ body {
     perspective: 2000px;
     overflow: hidden;
     will-change: transform;
+    background-repeat: no-repeat;
 }
 
 .door::before {
@@ -1577,5 +1581,39 @@ footer {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    .door {
+        background-size: 200% 100%;
+        transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .left-door {
+        background-position: 0% center;
+    }
+    
+    .right-door {
+        background-position: 100% center;
+    }
+    
+    .door.open-left {
+        transform: perspective(2000px) rotateY(-105deg);
+    }
+    
+    .door.open-right {
+        transform: perspective(2000px) rotateY(105deg);
+    }
+
+    .main-content {
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+        will-change: opacity;
+    }
+
+    .main-content.visible {
+        opacity: 1;
     }
 }
