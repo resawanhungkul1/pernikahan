@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Countdown Timer
-const weddingDate = new Date('September 30, 2025 00:00:00').getTime();
+const weddingDate = new Date('April 8, 2027 00:00:00').getTime();
 
 function updateTimer() {
     const now = new Date().getTime();
