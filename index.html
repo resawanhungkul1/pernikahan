@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ray & Anisa Wedding Invitation</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>    <div class="cover-wrapper">
+        <div class="doors">
+            <div class="door left-door"></div>
+            <div class="door right-door"></div>
+        </div>
+
+        <div class="invitation-cover" id="cover">
+            <div class="cover-content">
+                <h1>Undangan Pernikahan</h1>
+                <div class="names-big">Ray & Anisa</div>
+                <p class="date-cover">30 September 2025</p>
+                <button class="open-button" onclick="openInvitation()">Buka Undangan</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content" id="mainContent" style="display: none;">        <div class="audio-player">
+            <audio id="bgMusic" loop preload="auto">
+                <source src="assets/lesung-pipi.mp3" type="audio/mp3">
+            </audio>
+            <button id="playButton" onclick="togglePlay()">♪ Putar Musik</button>
+        </div>
+
+    <header class="hero">
+        <h1>Ray & Anisa</h1>
+        <p class="date">30 September 2025</p>
+    </header>
+
+    <section class="countdown">
+        <h2>Menghitung Hari ke Hari Bahagia</h2>
+        <div id="timer">
+            <div><span id="days">00</span><p>Hari</p></div>
+            <div><span id="hours">00</span><p>Jam</p></div>
+            <div><span id="minutes">00</span><p>Menit</p></div>
+            <div><span id="seconds">00</span><p>Detik</p></div>
+        </div>
+    </section>
+
+    <section class="quote">
+        <p>"And of His signs is that He created for you from yourselves mates that you may find tranquility in them; and He placed between you affection and mercy."</p>
+        <span>- Ar-Rum 30:21 -</span>
+    </section>
+
+    <section class="couple">
+        <div class="groom">
+            <h2>Ray</h2>
+            <p>Putra dari</p>
+            <p>Bapak Ujang & Ibu Mumun</p>
+        </div>
+        <div class="bride">
+            <h2>Anisa</h2>
+            <p>Putri dari</p>
+            <p>Bapak Maman & Ibu Euis</p>
+        </div>
+    </section>    <section class="gallery">
+        <h2>Momen Bahagia Kami</h2>
+        <div class="photo-grid">
+            <img src="assets/Pose prewedding.jpeg" alt="Pose Prewedding">
+            <img src="assets/Prewedding Adat Jawa.jpeg" alt="Prewedding Adat Jawa">
+            <img src="assets/prewedding Dicky&Eric.jpeg" alt="Prewedding Moment">
+            <img src="assets/Prewedding.jpeg" alt="Prewedding">
+            <img src="assets/Wedding Flatlay _ Polaroid Camera _ Romantic Wedding Styling.jpeg" alt="Wedding Styling">
+            <img src="assets/Windy & Fahmi wedding.jpeg" alt="Wedding Moment">
+        </div>
+    </section>
+
+    <section class="location">
+        <h2>Lokasi Pernikahan</h2>
+        <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.9839008934333!2d106.82145797575666!3d-6.269028193705367!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f23ff29000ab%3A0x9db43502185a6c4!2sGedung%20Pernikahan%20Graha%20Mandiri%20Auditorium!5e0!3m2!1sen!2sid!4v1684141234567!5m2!1sen!2sid" 
+                width="100%" 
+                height="450" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+        <div class="location-details">
+            <h3>Graha Mandiri Auditorium</h3>
+            <p>Jl. Imam Bonjol No.61, RT.2/RW.4, Menteng, Kec. Menteng, Kota Jakarta Pusat</p>
+            <a href="https://maps.app.goo.gl/BJeKewNyhHqH3JTXA" target="_blank" class="directions-button">Petunjuk Arah</a>
+        </div>
+    </section>
+
+    <section class="rsvp">
+        <h2>Konfirmasi Kehadiran</h2>
+        <form id="rsvpForm">
+            <input type="text" placeholder="Nama Anda" required>
+            <input type="number" placeholder="Jumlah Tamu" required>
+            <select required>
+                <option value="">Apakah Anda akan hadir?</option>
+                <option value="yes">Ya, saya akan hadir</option>
+                <option value="no">Maaf, saya tidak bisa hadir</option>
+            </select>
+            <textarea placeholder="Pesan Anda (Opsional)"></textarea>
+            <button type="submit">Kirim Konfirmasi</button>
+        </form>
+    </section>    <section class="gift">
+        <h2>Amplop Digital</h2>
+        <p>Kehadiran Anda adalah hadiah terindah bagi kami. Namun, jika Anda berkenan memberikan tanda kasih, silakan scan QR code di bawah ini:</p>
+        <img src="assets/qr-code.png" alt="QR Code untuk amplop digital" class="qr-code">
+    </section>
+
+    <section class="comments">
+        <h2>Ucapan & Doa</h2>
+        <div class="comments-form">
+            <form id="commentForm">
+                <input type="text" placeholder="Nama Anda" required>
+                <textarea placeholder="Tulis ucapan dan doa Anda untuk kedua mempelai" required></textarea>
+                <button type="submit">Kirim Ucapan</button>
+            </form>
+        </div>
+        <div class="comments-list" id="commentsList">
+            <!-- Comments will be added here dynamically -->
+        </div>
+    </section>
+
+    <footer>
+        <p>Kami tidak sabar menunggu kehadiran Anda!</p>
+        <p class="names">Ray & Anisa</p>
+    </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
