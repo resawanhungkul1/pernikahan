@@ -4,12 +4,24 @@
     --accent-color: #666666;
     --font-primary: 'Playfair Display', serif;
     --font-accent: 'Great Vibes', cursive;
+    --padding-section: clamp(40px, 8vw, 80px);
+    --font-size-h1: clamp(2.5rem, 8vw, 5rem);
+    --font-size-h2: clamp(2rem, 6vw, 3rem);
+    --font-size-normal: clamp(1rem, 3vw, 1.2rem);
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-primary);
+    line-height: 1.6;
+    color: var(--primary-color);
+    background-color: var(--secondary-color);
+    font-size: var(--font-size-normal);
 }
 
 .cover-wrapper {
@@ -150,6 +162,8 @@
         0 0 30px rgba(218, 165, 32, 0.2);
     position: relative;
     overflow: hidden;
+    width: min(90%, 500px);
+    padding: clamp(1.5rem, 4vw, 4rem);
 }
 
 .cover-content::before {
@@ -192,12 +206,12 @@
 
 .names-big {
     font-family: var(--font-accent);
-    font-size: 4rem;
+    font-size: clamp(2.5rem, 8vw, 4rem);
     margin: 2rem 0;
 }
 
 .date-cover {
-    font-size: 1.5rem;
+    font-size: clamp(1rem, 3vw, 1.5rem);
     margin-bottom: 2rem;
 }
 
@@ -233,7 +247,7 @@
 }
 
 .comments {
-    padding: 80px 20px;
+    padding: var(--padding-section) 20px;
     background-color: var(--secondary-color);
 }
 
@@ -322,13 +336,6 @@
     animation: fadeIn 0.3s ease-out;
 }
 
-body {
-    font-family: var(--font-primary);
-    line-height: 1.6;
-    color: var(--primary-color);
-    background-color: var(--secondary-color);
-}
-
 .audio-player {
     position: fixed;
     top: 20px;
@@ -369,8 +376,10 @@ body {
 
 .hero h1 {
     font-family: var(--font-accent);
-    font-size: 5rem;
+    font-size: var(--font-size-h1);
     margin-bottom: 20px;
+    padding: 0 15px;
+    text-align: center;
 }
 
 .hero .date {
@@ -379,33 +388,35 @@ body {
 }
 
 .countdown {
-    padding: 60px 20px;
+    padding: var(--padding-section) 20px;
     text-align: center;
     background-color: var(--secondary-color);
 }
 
 #timer {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 15px;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
 #timer div {
     background: var(--primary-color);
     color: var(--secondary-color);
-    padding: 20px;
+    padding: clamp(10px, 3vw, 20px);
     border-radius: 5px;
     min-width: 100px;
 }
 
 #timer span {
-    font-size: 2.5rem;
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
     font-weight: bold;
 }
 
 .quote {
-    padding: 80px 20px;
+    padding: var(--padding-section) 20px;
     text-align: center;
     background-color: var(--primary-color);
     color: var(--secondary-color);
@@ -419,7 +430,7 @@ body {
 }
 
 .couple {
-    padding: 80px 20px;
+    padding: var(--padding-section) 20px;
     display: flex;
     justify-content: center;
     gap: 100px;
@@ -433,7 +444,7 @@ body {
 }
 
 .gallery {
-    padding: 80px 20px;
+    padding: var(--padding-section) 20px;
     background-color: var(--primary-color);
     color: var(--secondary-color);
 }
@@ -445,11 +456,9 @@ body {
 
 .photo-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 15px;
 }
 
 .photo-grid .photo-item {
@@ -459,6 +468,7 @@ body {
     aspect-ratio: 3/4;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    height: auto;
 }
 
 .photo-grid img {
@@ -501,6 +511,7 @@ body {
     align-items: center;
     position: relative;
     overflow: hidden;
+    padding: 20px;
 }
 
 .lightbox img {
@@ -595,7 +606,7 @@ body {
 }
 
 .rsvp {
-    padding: 80px 20px;
+    padding: var(--padding-section) 20px;
     max-width: 600px;
     margin: 0 auto;
     text-align: center;
@@ -631,7 +642,7 @@ body {
 }
 
 .location {
-    padding: 80px 20px;
+    padding: var(--padding-section) 20px;
     text-align: center;
 }
 
@@ -664,7 +675,7 @@ body {
 }
 
 .gift {
-    padding: 80px 20px;
+    padding: var(--padding-section) 20px;
     text-align: center;
     background-color: var(--primary-color);
     color: var(--secondary-color);
@@ -858,5 +869,82 @@ footer {
 
     input, select, textarea, button {
         font-size: 16px !important;
+    }
+}
+
+@media (min-width: 768px) {
+    .photo-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    #timer {
+        grid-template-columns: repeat(4, 1fr);
+        max-width: 800px;
+    }
+
+    .cover-content {
+        width: min(80%, 600px);
+    }
+}
+
+@media (min-width: 1024px) {
+    .photo-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .couple {
+        display: flex;
+        gap: 100px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .rsvp form,
+    .comments-form {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .map-container {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .lightbox img {
+        max-width: 95%;
+        max-height: 80vh;
+    }
+
+    .lightbox .close-btn {
+        top: 10px;
+        right: 10px;
+    }
+
+    .lightbox .zoom-controls {
+        bottom: 10px;
+        right: 10px;
+    }
+
+    .zoom-btn {
+        width: 36px;
+        height: 36px;
+    }
+}
+
+@media (hover: none) {
+    .photo-item {
+        transform: none !important;
+    }
+    
+    .open-button:active,
+    button:active {
+        transform: scale(0.95);
     }
 }
