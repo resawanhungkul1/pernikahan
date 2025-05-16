@@ -689,3 +689,24 @@ function optimizeImages() {
 
 // Initialize image optimization after DOM loads
 document.addEventListener('DOMContentLoaded', optimizeImages);
+
+// Animasi saat scroll: fade-in/slide-in section
+function animateOnScroll() {
+    const elements = document.querySelectorAll('section, .main-content > header, footer');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('show-on-scroll');
+            } else {
+                entry.target.classList.remove('show-on-scroll');
+            }
+        });
+    }, {
+        threshold: 0.15
+    });
+    elements.forEach(el => {
+        el.classList.add('scroll-animate-init');
+        observer.observe(el);
+    });
+}
+document.addEventListener('DOMContentLoaded', animateOnScroll);
